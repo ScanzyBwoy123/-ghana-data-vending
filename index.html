@@ -1,734 +1,570 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#075e54">
-  <meta name="description" content="A simple Ghanaian data bundle shopping experience.">
-  <title>DataNest Ghana | Buy Data Bundles</title>
-  <style>
-    :root {
-      --green: #075e54;
-      --green-dark: #06483f;
-      --green-light: #e6f5ef;
-      --background: #f5f8f7;
-      --text: #172522;
-      --muted: #687772;
-      --border: #e2e9e6;
-      --white: #ffffff;
-      --orange: #f6a623;
-    }
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
-        Roboto, Arial, sans-serif;
-      background: var(--background);
-      color: var(--text);
-      line-height: 1.5;
-    }
-    button, input {
-      font: inherit;
-    }
-    button {
-      cursor: pointer;
-    }
-    .demo-banner {
-      padding: 10px 16px;
-      background: #fff4d7;
-      color: #77530b;
-      text-align: center;
-      font-size: 12px;
-      font-weight: 700;
-    }
-    header {
-      background: var(--white);
-      border-bottom: 1px solid var(--border);
-    }
-    .nav {
-      max-width: 1100px;
-      margin: auto;
-      padding: 17px 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 12px;
-    }
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-size: 19px;
-      font-weight: 850;
-      letter-spacing: -0.6px;
-    }
-    .brand-icon {
-      width: 42px;
-      height: 42px;
-      border-radius: 14px;
-      background: var(--green);
-      color: white;
-      display: grid;
-      place-items: center;
-      font-size: 22px;
-    }
-    .nav-tag {
-      color: var(--green);
-      background: var(--green-light);
-      padding: 7px 11px;
-      border-radius: 20px;
-      font-size: 12px;
-      font-weight: 800;
-    }
-    main {
-      max-width: 1100px;
-      margin: auto;
-      padding: 28px 20px 50px;
-    }
-    .hero {
-      background: linear-gradient(125deg, #075e54, #0b8c72);
-      color: white;
-      border-radius: 24px;
-      padding: 34px 28px;
-      position: relative;
-      overflow: hidden;
-      margin-bottom: 28px;
-    }
-    .hero::after {
-      content: "₵";
-      position: absolute;
-      right: 22px;
-      bottom: -80px;
-      font-size: 250px;
-      font-weight: 900;
-      opacity: 0.07;
-      pointer-events: none;
-    }
-    .eyebrow {
-      display: inline-block;
-      background: rgba(255,255,255,.14);
-      padding: 6px 10px;
-      border-radius: 20px;
-      font-size: 12px;
-      font-weight: 800;
-      margin-bottom: 15px;
-    }
-    .hero h1 {
-      max-width: 570px;
-      font-size: clamp(30px, 5vw, 45px);
-      line-height: 1.12;
-      letter-spacing: -1.4px;
-      margin-bottom: 14px;
-    }
-    .hero p {
-      max-width: 490px;
-      color: #e0f5ef;
-      font-size: 15px;
-    }
-    .hero-points {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-      margin-top: 22px;
-      font-size: 12px;
-      font-weight: 700;
-    }
-    .hero-points span {
-      background: rgba(255,255,255,.13);
-      border-radius: 8px;
-      padding: 8px 10px;
-    }
-    .section-heading {
-      margin-bottom: 17px;
-    }
-    .section-heading h2 {
-      font-size: 23px;
-      letter-spacing: -.5px;
-    }
-    .section-heading p {
-      color: var(--muted);
-      font-size: 14px;
-      margin-top: 4px;
-    }
-    .network-list {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 12px;
-      margin-bottom: 30px;
-    }
-    .network {
-      background: white;
-      border: 2px solid var(--border);
-      border-radius: 16px;
-      padding: 17px 10px;
-      text-align: center;
-      transition: .2s ease;
-    }
-    .network.active {
-      border-color: var(--green);
-      background: var(--green-light);
-      box-shadow: 0 0 0 3px rgba(7,94,84,.06);
-    }
-    .network-symbol {
-      width: 43px;
-      height: 43px;
-      border-radius: 13px;
-      display: grid;
-      place-items: center;
-      margin: 0 auto 9px;
-      font-weight: 900;
-      font-size: 13px;
-      color: white;
-    }
-    .mtn { background: #ffca05; color: #222; }
-    .telecel { background: #e32836; }
-    .at { background: #0869c8; }
-    .network strong {
-      display: block;
-      font-size: 14px;
-    }
-    .network small {
-      display: block;
-      margin-top: 3px;
-      color: var(--muted);
-      font-size: 11px;
-    }
-    .content-grid {
-      display: grid;
-      grid-template-columns: minmax(0, 1.6fr) minmax(270px, .9fr);
-      gap: 24px;
-      align-items: start;
-    }
-    .bundles {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 13px;
-    }
-    .bundle {
-      background: white;
-      border: 1px solid var(--border);
-      border-radius: 17px;
-      padding: 18px;
-      transition: transform .2s, border-color .2s;
-    }
-    .bundle:hover {
-      transform: translateY(-2px);
-      border-color: #a5cfc1;
-    }
-    .bundle.selected {
-      border: 2px solid var(--green);
-      padding: 17px;
-      background: #fbfffd;
-    }
-    .bundle-top {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 8px;
-      margin-bottom: 17px;
-    }
-    .bundle-label {
-      background: var(--green-light);
-      color: var(--green);
-      padding: 5px 8px;
-      border-radius: 7px;
-      font-size: 10px;
-      font-weight: 850;
-    }
-    .bundle-data {
-      font-size: 29px;
-      font-weight: 900;
-      letter-spacing: -1px;
-    }
-    .bundle-data span {
-      font-size: 15px;
-      letter-spacing: 0;
-    }
-    .bundle-validity {
-      color: var(--muted);
-      font-size: 12px;
-      margin: 3px 0 15px;
-    }
-    .bundle-bottom {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 8px;
-    }
-    .price {
-      font-size: 19px;
-      font-weight: 850;
-    }
-    .select-btn {
-      background: var(--green-light);
-      border: none;
-      border-radius: 9px;
-      color: var(--green);
-      padding: 9px 12px;
-      font-size: 12px;
-      font-weight: 800;
-    }
-    .bundle.selected .select-btn {
-      background: var(--green);
-      color: white;
-    }
-    .order-card {
-      background: white;
-      border: 1px solid var(--border);
-      border-radius: 19px;
-      padding: 22px;
-      position: sticky;
-      top: 16px;
-    }
-    .order-card h3 {
-      font-size: 19px;
-      margin-bottom: 5px;
-    }
-    .order-subtitle {
-      color: var(--muted);
-      font-size: 12px;
-      margin-bottom: 20px;
-    }
-    .field {
-      margin-bottom: 17px;
-    }
-    .field label {
-      display: block;
-      font-size: 12px;
-      font-weight: 800;
-      margin-bottom: 7px;
-    }
-    .field input {
-      width: 100%;
-      border: 1px solid #d8e2dd;
-      border-radius: 11px;
-      padding: 13px 12px;
-      background: #fbfdfc;
-      outline: none;
-    }
-    .field input:focus {
-      border-color: var(--green);
-      box-shadow: 0 0 0 3px rgba(7,94,84,.08);
-    }
-    .order-detail {
-      display: flex;
-      justify-content: space-between;
-      gap: 12px;
-      padding: 11px 0;
-      border-bottom: 1px solid var(--border);
-      font-size: 13px;
-    }
-    .order-detail span:first-child {
-      color: var(--muted);
-    }
-    .order-detail strong {
-      text-align: right;
-    }
-    .total {
-      padding: 17px 0;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    .total span {
-      font-size: 13px;
-      font-weight: 700;
-    }
-    .total strong {
-      color: var(--green);
-      font-size: 25px;
-    }
-    .checkout-btn {
-      width: 100%;
-      border: none;
-      background: var(--green);
-      color: white;
-      padding: 15px;
-      border-radius: 12px;
-      font-weight: 850;
-      transition: background .2s;
-    }
-    .checkout-btn:hover {
-      background: var(--green-dark);
-    }
-    .secure-note {
-      color: var(--muted);
-      font-size: 11px;
-      text-align: center;
-      margin-top: 12px;
-    }
-    .notice {
-      margin-top: 16px;
-      border-radius: 11px;
-      padding: 12px;
-      background: #fff4d7;
-      color: #77530b;
-      font-size: 12px;
-      line-height: 1.6;
-    }
-    .steps {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 15px;
-      margin-top: 35px;
-    }
-    .step {
-      padding: 19px;
-      background: white;
-      border: 1px solid var(--border);
-      border-radius: 15px;
-    }
-    .step-number {
-      width: 33px;
-      height: 33px;
-      display: grid;
-      place-items: center;
-      border-radius: 10px;
-      background: var(--green-light);
-      color: var(--green);
-      font-weight: 900;
-      margin-bottom: 12px;
-    }
-    .step h3 {
-      font-size: 14px;
-      margin-bottom: 5px;
-    }
-    .step p {
-      color: var(--muted);
-      font-size: 12px;
-    }
-    footer {
-      border-top: 1px solid var(--border);
-      background: white;
-      padding: 23px 20px;
-      text-align: center;
-      color: var(--muted);
-      font-size: 12px;
-    }
-    .toast {
-      position: fixed;
-      left: 50%;
-      bottom: 22px;
-      transform: translate(-50%, 150%);
-      opacity: 0;
-      width: min(90%, 420px);
-      background: #17332d;
-      color: white;
-      padding: 15px 17px;
-      border-radius: 13px;
-      box-shadow: 0 10px 35px rgba(0,0,0,.2);
-      font-size: 13px;
-      z-index: 10;
-      transition: .3s ease;
-    }
-    .toast.show {
-      transform: translate(-50%, 0);
-      opacity: 1;
-    }
-    @media (max-width: 760px) {
-      main {
-        padding: 20px 15px 35px;
-      }
-      .hero {
-        padding: 27px 21px;
-        border-radius: 19px;
-      }
-      .content-grid {
-        grid-template-columns: 1fr;
-      }
-      .order-card {
-        position: static;
-      }
-      .steps {
-        grid-template-columns: 1fr;
-      }
-    }
-    @media (max-width: 390px) {
-      .bundles {
-        grid-template-columns: 1fr;
-      }
-      .network-list {
-        gap: 7px;
-      }
-      .network {
-        padding: 13px 5px;
-      }
-      .nav {
-        padding: 14px;
-      }
-      .brand {
-        font-size: 16px;
-      }
-      .nav-tag {
-        font-size: 10px;
-      }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#050b1c">
+<title>DataNest Ghana | Data Without Limits</title>
+
+<style>
+:root {
+  --bg:#050b1c;
+  --panel:#0b1530;
+  --panel2:#101e3c;
+  --blue:#087bff;
+  --blue2:#39a0ff;
+  --lime:#d4ff00;
+  --white:#f7faff;
+  --muted:#9aabc9;
+  --border:#1d3156;
+}
+* { box-sizing:border-box; margin:0; padding:0; }
+body {
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
+  background:var(--bg);
+  color:var(--white);
+  line-height:1.5;
+}
+button,input,select { font:inherit; }
+button { cursor:pointer; }
+.demo {
+  padding:10px;
+  text-align:center;
+  background:#1b263d;
+  color:var(--lime);
+  font-size:12px;
+  font-weight:800;
+  border-bottom:1px solid var(--border);
+}
+header {
+  border-bottom:1px solid var(--border);
+  background:rgba(5,11,28,.97);
+}
+.nav {
+  max-width:1100px;
+  margin:auto;
+  padding:18px 20px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+}
+.brand {
+  font-size:21px;
+  font-weight:900;
+  letter-spacing:-.7px;
+}
+.brand span { color:var(--blue2); }
+.brand small {
+  display:block;
+  font-size:9px;
+  letter-spacing:3px;
+  color:var(--muted);
+}
+.ghana {
+  border:1px solid var(--border);
+  padding:7px 10px;
+  border-radius:9px;
+  font-size:11px;
+  color:var(--lime);
+}
+main { max-width:1100px; margin:auto; padding:25px 18px 45px; }
+.hero {
+  position:relative;
+  overflow:hidden;
+  border:1px solid #153c78;
+  border-radius:24px;
+  padding:35px 25px;
+  background:
+    radial-gradient(ellipse at 90% 15%,#0752a955,transparent 42%),
+    linear-gradient(135deg,#0b1734,#050b1c 75%);
+}
+.hero:after {
+  content:"DATA";
+  position:absolute;
+  right:-10px;
+  bottom:-30px;
+  font-size:100px;
+  font-weight:1000;
+  letter-spacing:-8px;
+  color:#1684ff;
+  opacity:.06;
+  pointer-events:none;
+}
+.eyebrow {
+  color:var(--lime);
+  font-size:11px;
+  font-weight:900;
+  letter-spacing:2px;
+}
+h1 {
+  font-size:clamp(34px,7vw,55px);
+  line-height:1.08;
+  letter-spacing:-2px;
+  margin:15px 0;
+  max-width:600px;
+}
+h1 span { color:var(--blue2); }
+.hero p { max-width:470px; color:#b8c8e4; font-size:14px; }
+.hero-points {
+  display:flex;
+  flex-wrap:wrap;
+  gap:9px;
+  margin-top:22px;
+}
+.hero-points span {
+  padding:8px 11px;
+  border:1px solid #25446e;
+  border-radius:8px;
+  background:#0b1b37;
+  font-size:11px;
+  font-weight:700;
+}
+.hero-points b { color:var(--lime); }
+.section-title { margin:28px 0 14px; }
+.section-title h2 { font-size:22px; letter-spacing:-.5px; }
+.section-title p { color:var(--muted); font-size:13px; margin-top:4px; }
+.networks {
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:12px;
+}
+.network {
+  border:1px solid var(--border);
+  border-radius:15px;
+  padding:16px 8px;
+  background:var(--panel);
+  color:var(--white);
+  text-align:center;
+}
+.network.active {
+  border:2px solid var(--blue);
+  background:#10274b;
+  box-shadow:0 0 20px #087bff18;
+}
+.network-icon {
+  width:43px;height:43px;
+  margin:0 auto 9px;
+  border-radius:13px;
+  display:grid;
+  place-items:center;
+  font-weight:1000;
+}
+.mtn { background:#ffcc00;color:#111; }
+.telecel { background:#e52d42;color:white; }
+.at { background:#0878d7;color:white; }
+.network strong { display:block;font-size:13px; }
+.network small { color:var(--muted);font-size:10px; }
+.layout {
+  display:grid;
+  grid-template-columns:minmax(0,1.4fr) minmax(270px,.9fr);
+  gap:22px;
+  align-items:start;
+  margin-top:28px;
+}
+.bundles {
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:12px;
+}
+.bundle {
+  border:1px solid var(--border);
+  border-radius:16px;
+  background:var(--panel);
+  padding:17px;
+}
+.bundle.selected {
+  border:2px solid var(--blue);
+  padding:16px;
+  background:linear-gradient(145deg,#102448,#0a142a);
+}
+.badge {
+  color:var(--lime);
+  font-size:9px;
+  letter-spacing:1px;
+  font-weight:900;
+}
+.bundle h3 { font-size:29px; margin-top:10px; }
+.bundle .validity { color:var(--muted);font-size:11px;margin:2px 0 15px; }
+.bundle-bottom {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:7px;
+}
+.price { font-size:17px;font-weight:900; }
+.choose {
+  border:1px solid #22559a;
+  background:#10284b;
+  color:var(--blue2);
+  border-radius:8px;
+  padding:8px 10px;
+  font-size:11px;
+  font-weight:800;
+}
+.selected .choose { background:var(--blue);color:white;border-color:var(--blue); }
+.checkout {
+  padding:21px;
+  border:1px solid var(--border);
+  background:linear-gradient(155deg,#0d1a35,#080f21);
+  border-radius:19px;
+}
+.checkout h2 { font-size:20px; }
+.checkout .sub { color:var(--muted);font-size:12px;margin:4px 0 20px; }
+.field { margin-bottom:16px; }
+label {
+  display:block;
+  margin-bottom:7px;
+  font-size:11px;
+  font-weight:850;
+  letter-spacing:.5px;
+}
+input,select {
+  width:100%;
+  padding:13px;
+  color:white;
+  background:#050c1c;
+  border:1px solid #263b5f;
+  border-radius:10px;
+  outline:none;
+}
+input:focus,select:focus { border-color:var(--blue2); }
+select option { background:#0b1530;color:white; }
+.hint { color:var(--muted);font-size:10px;margin-top:5px; }
+.line {
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  padding:11px 0;
+  border-bottom:1px solid var(--border);
+  font-size:12px;
+}
+.line span { color:var(--muted); }
+.line strong { text-align:right; }
+.total {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:17px 0;
+}
+.total span { font-size:13px;font-weight:800; }
+.total strong { color:var(--lime);font-size:25px; }
+.primary {
+  width:100%;
+  padding:15px;
+  border:0;
+  border-radius:11px;
+  background:var(--lime);
+  color:#101725;
+  font-weight:950;
+  transition:.2s;
+}
+.primary:hover { background:#e4ff63; }
+.notice {
+  margin-top:14px;
+  padding:12px;
+  border:1px solid #514b21;
+  background:#282714;
+  color:#e9e7c0;
+  border-radius:10px;
+  font-size:11px;
+}
+.steps {
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:12px;
+  margin-top:30px;
+}
+.step {
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:13px;
+  padding:17px;
+}
+.step b { color:var(--blue2);font-size:20px; }
+.step h3 { font-size:13px;margin:7px 0 4px; }
+.step p { color:var(--muted);font-size:11px; }
+footer {
+  border-top:1px solid var(--border);
+  text-align:center;
+  padding:24px 15px;
+  color:var(--muted);
+  font-size:11px;
+}
+footer strong { color:var(--blue2); }
+@media(max-width:760px) {
+  main { padding:19px 14px 35px; }
+  .hero { padding:28px 20px;border-radius:19px; }
+  .layout { grid-template-columns:1fr; }
+  .steps { grid-template-columns:1fr; }
+}
+@media(max-width:390px) {
+  .bundles { grid-template-columns:1fr; }
+  .brand { font-size:18px; }
+}
+</style>
 </head>
+
 <body>
-  <div class="demo-banner">
-    DEMO WEBSITE — Prices are examples. Real payments and data delivery are not connected yet.
+<div class="demo">
+  DEMO MODE · PAYMENTS AND DATA DELIVERY NOT CONNECTED
+</div>
+
+<header>
+  <div class="nav">
+    <div class="brand">
+      DataNest <span>GHANA</span>
+      <small>CONNECT WITHOUT LIMITS</small>
+    </div>
+    <div class="ghana">GHANA 🇬🇭</div>
   </div>
-  <header>
-    <div class="nav">
-      <div class="brand">
-        <div class="brand-icon">D</div>
-        <span>DataNest <span style="color:var(--green)">Ghana</span></span>
-      </div>
-      <div class="nav-tag">GHANA 🇬🇭</div>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="eyebrow">YOUR CONNECTION. YOUR CONTROL.</div>
+    <h1>More data.<br><span>More possibilities.</span></h1>
+    <p>
+      Choose your network, select a data bundle and enter the number
+      that should receive your data.
+    </p>
+    <div class="hero-points">
+      <span><b>✓</b> Easy ordering</span>
+      <span><b>✓</b> Three networks</span>
+      <span><b>✓</b> Built for Ghana</span>
     </div>
-  </header>
-  <main>
-    <section class="hero">
-      <span class="eyebrow">YOUR DATA. YOUR WAY.</span>
-      <h1>Stay connected.<br>Spend smarter.</h1>
-      <p>
-        Choose your network, select a data bundle and enter the number
-        you want to receive the data on.
-      </p>
-      <div class="hero-points">
-        <span>✓ Simple ordering</span>
-        <span>✓ Mobile-friendly</span>
-        <span>✓ Built for Ghana</span>
-      </div>
-    </section>
+  </section>
+
+  <section>
+    <div class="section-title">
+      <h2>01 / Select network</h2>
+      <p>Which mobile network should receive the data?</p>
+    </div>
+
+    <div class="networks">
+      <button class="network active" data-network="MTN" type="button">
+        <div class="network-icon mtn">MTN</div>
+        <strong>MTN Ghana</strong>
+        <small>Mobile data</small>
+      </button>
+      <button class="network" data-network="Telecel" type="button">
+        <div class="network-icon telecel">T</div>
+        <strong>Telecel</strong>
+        <small>Mobile data</small>
+      </button>
+      <button class="network" data-network="AT" type="button">
+        <div class="network-icon at">AT</div>
+        <strong>AT Ghana</strong>
+        <small>Mobile data</small>
+      </button>
+    </div>
+  </section>
+
+  <div class="layout">
     <section>
-      <div class="section-heading">
-        <h2>Choose your network</h2>
-        <p>Select the network you want to buy data for.</p>
+      <div class="section-title" style="margin-top:0">
+        <h2>02 / Choose bundle</h2>
+        <p>Illustrative prices only. Supplier prices are not yet confirmed.</p>
       </div>
-      <div class="network-list">
-        <button class="network active" data-network="MTN" type="button">
-          <span class="network-symbol mtn">MTN</span>
-          <strong>MTN Ghana</strong>
-          <small>Choose MTN data</small>
-        </button>
-        <button class="network" data-network="Telecel" type="button">
-          <span class="network-symbol telecel">T</span>
-          <strong>Telecel</strong>
-          <small>Choose Telecel data</small>
-        </button>
-        <button class="network" data-network="AT" type="button">
-          <span class="network-symbol at">AT</span>
-          <strong>AT Ghana</strong>
-          <small>Choose AT data</small>
-        </button>
-      </div>
+      <div class="bundles" id="bundles"></div>
     </section>
-    <div class="content-grid">
-      <section>
-        <div class="section-heading">
-          <h2>Choose a data bundle</h2>
-          <p>Demo bundles for preview purposes only.</p>
-        </div>
-        <div class="bundles" id="bundles"></div>
-      </section>
-      <aside class="order-card">
-        <h3>Your order</h3>
-        <p class="order-subtitle">Check your selection before continuing.</p>
-        <div class="field">
-          <label for="phone">RECIPIENT PHONE NUMBER</label>
-          <input
-            id="phone"
-            type="tel"
-            inputmode="tel"
-            autocomplete="tel"
-            placeholder="e.g. 0241234567"
-            maxlength="15"
-          >
-        </div>
-        <div class="order-detail">
-          <span>Network</span>
-          <strong id="summaryNetwork">MTN</strong>
-        </div>
-        <div class="order-detail">
-          <span>Bundle</span>
-          <strong id="summaryBundle">1 GB</strong>
-        </div>
-        <div class="order-detail">
-          <span>Validity</span>
-          <strong id="summaryValidity">Example only</strong>
-        </div>
-        <div class="total">
-          <span>Example total</span>
-          <strong id="summaryPrice">GH₵ 5.00</strong>
-        </div>
-        <button class="checkout-btn" id="checkout" type="button">
-          Preview My Order →
-        </button>
-        <p class="secure-note">
-          No payment will be taken on this demo website.
+
+    <section class="checkout">
+      <h2>03 / Complete your order</h2>
+      <p class="sub">Review your bundle and enter the required details.</p>
+
+      <div class="field">
+        <label for="recipient">RECIPIENT PHONE NUMBER</label>
+        <input id="recipient" type="tel" inputmode="tel"
+          placeholder="e.g. 0241234567" maxlength="15">
+        <p class="hint">The phone number that should receive the data.</p>
+      </div>
+
+      <div class="field">
+        <label for="payment">PREFERRED PAYMENT METHOD</label>
+        <select id="payment">
+          <option value="">Choose payment method</option>
+          <option value="MTN MoMo">MTN Mobile Money</option>
+          <option value="Telecel Cash">Telecel Cash</option>
+          <option value="AT Money">AT Money</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label for="payer">CUSTOMER'S PAYMENT NUMBER</label>
+        <input id="payer" type="tel" inputmode="tel"
+          placeholder="e.g. 0201234567" maxlength="15">
+        <p class="hint">
+          The number you intend to pay with. This is separate from the recipient number.
         </p>
-        <div class="notice">
-          <strong>Demo notice:</strong> This button only previews your
-          order. Mobile Money, supplier delivery and order tracking have
-          not been connected.
-        </div>
-      </aside>
-    </div>
-    <section class="steps">
-      <div class="step">
-        <div class="step-number">1</div>
-        <h3>Choose a network</h3>
-        <p>Select the mobile network you want to use.</p>
       </div>
-      <div class="step">
-        <div class="step-number">2</div>
-        <h3>Select your bundle</h3>
-        <p>Choose a bundle and enter the recipient's phone number.</p>
+
+      <div class="line">
+        <span>Network</span><strong id="sNetwork">MTN</strong>
       </div>
-      <div class="step">
-        <div class="step-number">3</div>
-        <h3>Confirm your order</h3>
-        <p>Once the service is connected, this step can lead to payment and delivery.</p>
+      <div class="line">
+        <span>Selected bundle</span><strong id="sBundle">1 GB</strong>
+      </div>
+      <div class="line">
+        <span>Validity</span><strong>Not yet confirmed</strong>
+      </div>
+
+      <div class="total">
+        <span>Example total</span>
+        <strong id="sPrice">GH₵ 5.00</strong>
+      </div>
+
+      <button class="primary" id="preview" type="button">
+        Preview Order →
+      </button>
+
+      <div class="notice">
+        <strong>Important:</strong> This is a demonstration only.
+        It will not charge you, request a MoMo PIN, or send data.
+        A payment provider and data supplier must be connected before real orders.
       </div>
     </section>
-  </main>
-  <footer>
-    <p><strong>DataNest Ghana</strong> · A data vending website prototype.</p>
-    <p style="margin-top:5px">Demo prices are not live offers. No real purchases are available yet.</p>
-  </footer>
-  <div class="toast" id="toast" role="status" aria-live="polite"></div>
-  <script>
-    "use strict";
-    // Demo prices only. Replace these with verified supplier prices
-    // before launching any real sales.
-    const bundlesByNetwork = {
-      MTN: [
-        { id: "mtn-1", data: "1 GB", price: 5, validity: "Example validity", label: "STARTER" },
-        { id: "mtn-2", data: "2 GB", price: 10, validity: "Example validity", label: "POPULAR" },
-        { id: "mtn-3", data: "5 GB", price: 22, validity: "Example validity", label: "VALUE" },
-        { id: "mtn-4", data: "10 GB", price: 42, validity: "Example validity", label: "BIG BUNDLE" }
-      ],
-      Telecel: [
-        { id: "tel-1", data: "1 GB", price: 5, validity: "Example validity", label: "STARTER" },
-        { id: "tel-2", data: "2 GB", price: 10, validity: "Example validity", label: "POPULAR" },
-        { id: "tel-3", data: "5 GB", price: 22, validity: "Example validity", label: "VALUE" },
-        { id: "tel-4", data: "10 GB", price: 42, validity: "Example validity", label: "BIG BUNDLE" }
-      ],
-      AT: [
-        { id: "at-1", data: "1 GB", price: 5, validity: "Example validity", label: "STARTER" },
-        { id: "at-2", data: "2 GB", price: 10, validity: "Example validity", label: "POPULAR" },
-        { id: "at-3", data: "5 GB", price: 22, validity: "Example validity", label: "VALUE" },
-        { id: "at-4", data: "10 GB", price: 42, validity: "Example validity", label: "BIG BUNDLE" }
-      ]
-    };
-    let selectedNetwork = "MTN";
-    let selectedBundleId = "mtn-1";
-    const bundlesElement = document.getElementById("bundles");
-    const phoneInput = document.getElementById("phone");
-    const toastElement = document.getElementById("toast");
-    function getSelectedBundle() {
-      return bundlesByNetwork[selectedNetwork].find(
-        bundle => bundle.id === selectedBundleId
-      ) || bundlesByNetwork[selectedNetwork][0];
-    }
-    function formatPrice(amount) {
-      return "GH₵ " + amount.toFixed(2);
-    }
-    function showToast(message) {
-      toastElement.textContent = message;
-      toastElement.classList.add("show");
-      window.clearTimeout(showToast.timeout);
-      showToast.timeout = window.setTimeout(() => {
-        toastElement.classList.remove("show");
-      }, 3500);
-    }
-    function renderBundles() {
-      const bundles = bundlesByNetwork[selectedNetwork];
-      bundlesElement.innerHTML = bundles.map(bundle => {
-        const selected = bundle.id === selectedBundleId;
-        return `
-          <article class="bundle ${selected ? "selected" : ""}">
-            <div class="bundle-top">
-              <span class="bundle-label">${bundle.label}</span>
-              <span aria-hidden="true">${selected ? "✓" : "◌"}</span>
-            </div>
-            <div class="bundle-data">${bundle.data}</div>
-            <div class="bundle-validity">${bundle.validity}</div>
-            <div class="bundle-bottom">
-              <span class="price">${formatPrice(bundle.price)}</span>
-              <button
-                class="select-btn"
-                type="button"
-                data-bundle-id="${bundle.id}"
-                aria-pressed="${selected}"
-              >
-                ${selected ? "Selected" : "Choose"}
-              </button>
-            </div>
-          </article>
-        `;
-      }).join("");
-      bundlesElement.querySelectorAll("[data-bundle-id]").forEach(button => {
-        button.addEventListener("click", () => {
-          selectedBundleId = button.dataset.bundleId;
-          renderBundles();
-          updateSummary();
-        });
-      });
-    }
-    function updateSummary() {
-      const bundle = getSelectedBundle();
-      document.getElementById("summaryNetwork").textContent = selectedNetwork;
-      document.getElementById("summaryBundle").textContent = bundle.data;
-      document.getElementById("summaryValidity").textContent = bundle.validity;
-      document.getElementById("summaryPrice").textContent = formatPrice(bundle.price);
-    }
-    document.querySelectorAll(".network").forEach(button => {
-      button.addEventListener("click", () => {
-        selectedNetwork = button.dataset.network;
-        selectedBundleId = bundlesByNetwork[selectedNetwork][0].id;
-        document.querySelectorAll(".network").forEach(networkButton => {
-          const active = networkButton === button;
-          networkButton.classList.toggle("active", active);
-          networkButton.setAttribute("aria-pressed", String(active));
-        });
-        renderBundles();
-        updateSummary();
-      });
+  </div>
+
+  <section class="steps">
+    <div class="step">
+      <b>01</b><h3>Select your network</h3>
+      <p>Choose MTN, Telecel or AT.</p>
+    </div>
+    <div class="step">
+      <b>02</b><h3>Enter your details</h3>
+      <p>Specify the recipient and intended payment method.</p>
+    </div>
+    <div class="step">
+      <b>03</b><h3>Pay and receive data</h3>
+      <p>This step will be activated after secure payment and supplier integration.</p>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <p><strong>DataNest Ghana</strong> · Designed for Ghana 🇬🇭</p>
+  <p style="margin-top:5px">Demo storefront. No live transactions are available.</p>
+</footer>
+
+<script>
+const catalog = {
+  MTN: [
+    {id:"m1",data:"1 GB",price:5,label:"STARTER"},
+    {id:"m2",data:"2 GB",price:10,label:"POPULAR"},
+    {id:"m3",data:"5 GB",price:22,label:"VALUE"},
+    {id:"m4",data:"10 GB",price:42,label:"BIG BUNDLE"}
+  ],
+  Telecel: [
+    {id:"t1",data:"1 GB",price:5,label:"STARTER"},
+    {id:"t2",data:"2 GB",price:10,label:"POPULAR"},
+    {id:"t3",data:"5 GB",price:22,label:"VALUE"},
+    {id:"t4",data:"10 GB",price:42,label:"BIG BUNDLE"}
+  ],
+  AT: [
+    {id:"a1",data:"1 GB",price:5,label:"STARTER"},
+    {id:"a2",data:"2 GB",price:10,label:"POPULAR"},
+    {id:"a3",data:"5 GB",price:22,label:"VALUE"},
+    {id:"a4",data:"10 GB",price:42,label:"BIG BUNDLE"}
+  ]
+};
+
+let network = "MTN";
+let bundleId = "m1";
+
+const bundlesElement = document.getElementById("bundles");
+
+function money(n) {
+  return "GH₵ " + n.toFixed(2);
+}
+
+function currentBundle() {
+  return catalog[network].find(b => b.id === bundleId) || catalog[network][0];
+}
+
+function renderBundles() {
+  bundlesElement.innerHTML = catalog[network].map(b => {
+    const active = b.id === bundleId;
+    return `
+      <article class="bundle ${active ? "selected" : ""}">
+        <div class="badge">${b.label}</div>
+        <h3>${b.data}</h3>
+        <p class="validity">Validity not yet confirmed</p>
+        <div class="bundle-bottom">
+          <span class="price">${money(b.price)}</span>
+          <button class="choose" type="button"
+            data-id="${b.id}">${active ? "Selected" : "Choose"}</button>
+        </div>
+      </article>`;
+  }).join("");
+
+  bundlesElement.querySelectorAll("[data-id]").forEach(btn => {
+    btn.addEventListener("click", () => {
+      bundleId = btn.dataset.id;
+      renderBundles();
+      updateSummary();
     });
-    document.getElementById("checkout").addEventListener("click", () => {
-      const phone = phoneInput.value.trim();
-      const bundle = getSelectedBundle();
-      // Basic Ghanaian mobile number format check for this demo.
-      const normalizedPhone = phone.replace(/[\s-]/g, "");
-      const validPhone = /^(?:0\d{9}|\+233\d{9}|233\d{9})$/.test(normalizedPhone);
-      if (!validPhone) {
-        showToast("Enter a valid Ghanaian phone number, e.g. 0241234567.");
-        phoneInput.focus();
-        return;
-      }
-      const order = {
-        mode: "DEMO_ONLY",
-        network: selectedNetwork,
-        bundle: bundle.data,
-        examplePriceGHS: bundle.price,
-        recipientPhone: normalizedPhone,
-        createdAt: new Date().toISOString(),
-        paymentConnected: false,
-        dataDeliveryConnected: false
-      };
-      // Preview the order locally; it is not submitted to a server.
-      const message = [
-        "DEMO ORDER PREVIEW",
-        "",
-        "Network: " + order.network,
-        "Bundle: " + order.bundle,
-        "Example price: " + formatPrice(order.examplePriceGHS),
-        "Recipient: " + order.recipientPhone,
-        "",
-        "No payment was taken.",
-        "No data bundle was sent."
-      ].join("\n");
-      window.alert(message);
-      console.log("Demo order preview:", order);
+  });
+}
+
+function updateSummary() {
+  const b = currentBundle();
+  document.getElementById("sNetwork").textContent = network;
+  document.getElementById("sBundle").textContent = b.data;
+  document.getElementById("sPrice").textContent = money(b.price);
+}
+
+document.querySelectorAll("[data-network]").forEach(btn => {
+  btn.addEventListener("click", () => {
+    network = btn.dataset.network;
+    bundleId = catalog[network][0].id;
+
+    document.querySelectorAll("[data-network]").forEach(other => {
+      other.classList.toggle("active", other === btn);
     });
+
     renderBundles();
     updateSummary();
-  </script>
+  });
+});
+
+document.getElementById("preview").addEventListener("click", () => {
+  const recipient = document.getElementById("recipient").value.trim();
+  const payer = document.getElementById("payer").value.trim();
+  const payment = document.getElementById("payment").value;
+  const phonePattern = /^(?:0\d{9}|\+233\d{9}|233\d{9})$/;
+  const b = currentBundle();
+
+  if (!phonePattern.test(recipient.replace(/[\s-]/g, ""))) {
+    alert("Please enter a valid Ghanaian recipient phone number.");
+    return;
+  }
+
+  if (!payment) {
+    alert("Please choose your preferred payment method.");
+    return;
+  }
+
+  if (!phonePattern.test(payer.replace(/[\s-]/g, ""))) {
+    alert("Please enter a valid Ghanaian payment phone number.");
+    return;
+  }
+
+  alert(
+    "DEMO ORDER PREVIEW\n\n" +
+    "Network: " + network + "\n" +
+    "Bundle: " + b.data + "\n" +
+    "Example price: " + money(b.price) + "\n" +
+    "Recipient number: " + recipient + "\n" +
+    "Preferred payment: " + payment + "\n" +
+    "Payment number: " + payer + "\n\n" +
+    "No payment has been taken.\n" +
+    "No data has been delivered."
+  );
+});
+
+renderBundles();
+updateSummary();
+</script>
 </body>
 </html>
